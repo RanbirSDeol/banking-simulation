@@ -4,6 +4,7 @@
  */
 package myPackage;
 
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import javax.swing.JDialog;
@@ -231,19 +232,40 @@ public class loginFrame extends javax.swing.JFrame {
     
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
         // Sign In Button
+        Color errorRed = new Color(255,219,219); // Error Color
+        Color normalColor = new Color(255,255,255); // Default Color
+        
         
         // First let's get our username, and our password
         String accountNo = accountNum.getText();
         String passText = String.valueOf(password.getPassword());
         
-        // Then let's check with our mainHandler, if this user is registered
+        accountNum.setBackground(normalColor);
+        password.setBackground(normalColor);
         
-        String attempt = mainHandler.attemptLogin(accountNo, passText);
-        
-        if (!attempt.equals("Success")) {
-            JOptionPane.showMessageDialog(null, attempt, "Login Error!", JOptionPane.WARNING_MESSAGE);
+        if (accountNo.length() == 8) {
+            if (accountNo.matches("[0-9]+")) {
+                if (passText.length() >= 8) {
+                    // Then let's check with our mainHandler, if this user is registered
+                    String attempt = mainHandler.attemptLogin(accountNo, passText);
+
+                    if (!attempt.equals("Success")) {
+                        password.setBackground(errorRed);
+                        JOptionPane.showMessageDialog(null, "Wrong Password!", "Login Error", JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "You Have Logged In Successfully!", "Login Successful!", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                } else {
+                    password.setBackground(errorRed);
+                    JOptionPane.showMessageDialog(null, "Invalid Password or Account Number!", "Login Error", JOptionPane.WARNING_MESSAGE);
+                }
+            } else {
+                accountNum.setBackground(errorRed);
+                JOptionPane.showMessageDialog(null, "Invalid Account Number!", "Login Error", JOptionPane.WARNING_MESSAGE);
+            }
         } else {
-            JOptionPane.showMessageDialog(null, "You Have Logged In Successfully!", "Login Successful!", JOptionPane.INFORMATION_MESSAGE);
+            accountNum.setBackground(errorRed);
+            JOptionPane.showMessageDialog(null, "Invalid Account Number!", "Login Error", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_signInActionPerformed
 

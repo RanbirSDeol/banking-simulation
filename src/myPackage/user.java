@@ -20,17 +20,22 @@ public class user extends mainHandler {
     private String address; // Users address
     private String password; // Users password
     private String bankBranch; // The user's bank's name
+    private String phoneNumber; // The user's phone number
+    private String emailAddress; // The user's email address;
+    // Here we'll add the banking accounts [No need to construct this yet]
     private ArrayList<String> transactions; // Users transactions
     
     // Constructor
     user(int accNo, String accHolderName, BigDecimal balance, String address,
-            String password, String bankBranch, ArrayList<String> transactions) {
+            String password, String bankBranch, String phoneNumber, String emailAddress, ArrayList<String> transactions) {
         this.accNo = accNo;
         this.accHolderName = accHolderName;
         this.balance = balance;
         this.address = address;
         this.password = password;
         this.bankBranch = bankBranch;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
         this.transactions = transactions;
     }
     

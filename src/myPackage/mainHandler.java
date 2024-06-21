@@ -60,7 +60,7 @@ public class mainHandler {
      * @return returns the status of the generation, success or an error message that'll display
      */
     public static String generateNewUser(int accNo, String accHolderName, BigDecimal balance, String address,
-            String password, String bankBranch) {
+            String password, String bankBranch, String phoneNumber, String emailAddress) {
         
         // Here let's check to make sure our values are valid [We already did a soft check from the registerFrame]
         
@@ -113,7 +113,7 @@ public class mainHandler {
         // If we pass all the conditions, let's create the account and register it!
         
         ArrayList<String> transactions = new ArrayList<>(); // Transactions will be empty, new account
-        user newUser = new user(accNo, accHolderName, balance, address, password, bankBranch, transactions); // Feeding the params
+        user newUser = new user(accNo, accHolderName, balance, address, password, bankBranch, phoneNumber, emailAddress, transactions); // Feeding the params
         userList.add(newUser); // Adding our new user to our list
         existingAccountNumbers.add(accNo); // Adding the users ID to our list, since here we've done all our checks
         
@@ -149,7 +149,11 @@ public class mainHandler {
         // Creating our "Admin" user, it'll be used for testing
         BigDecimal initialBalance = new BigDecimal("24.2");
         ArrayList<String> initialTransactions = new ArrayList<>();
-        user adminUser = new user(generateAccountNo(), "Admin", initialBalance, "31 Main Street", "Admin12345", bankBranches[0], initialTransactions);
+        
+        user adminUser = new user(11111111, "Admin", initialBalance, "31 Main Street", "Admin12345", 
+                bankBranches[0], "1234567890", "admin@gmail.com", initialTransactions);
+        
+        existingAccountNumbers.add(11111111);
         System.out.println("Admin ID: " + adminUser.getAccNo());
         
         // Adding the admin user, this is a testing account

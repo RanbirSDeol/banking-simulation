@@ -1,13 +1,18 @@
 package myPackage;
 
+import java.awt.Color;
 import java.math.BigDecimal;
 import javax.swing.JOptionPane;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author Ranbir
@@ -17,10 +22,37 @@ public class registerFrame extends javax.swing.JFrame {
     /**
      * Creates new form registerFrame
      */
+    // A method to limit the amount of text in a JLabel
+    public class LimitDocumentFilter extends DocumentFilter {
+
+        private int limit;
+
+        public LimitDocumentFilter(int limit) {
+            if (limit <= 0) {
+                throw new IllegalArgumentException("Limit can not be <= 0");
+            }
+            this.limit = limit;
+        }
+
+        @Override
+        public void replace(DocumentFilter.FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+            int currentLength = fb.getDocument().getLength();
+            int overLimit = (currentLength + text.length()) - limit - length;
+            if (overLimit > 0) {
+                text = text.substring(0, text.length() - overLimit);
+            }
+            if (text.length() > 0) {
+                super.replace(fb, offset, length, text, attrs);
+            }
+        }
+    }
+
     public registerFrame() {
         initComponents();
         int accountID = mainHandler.generateAccountNo();
         accountNum.setText(Integer.toString(accountID));
+        // Setting limits to our boxs
+        ((AbstractDocument) phoneNumber.getDocument()).setDocumentFilter(new LimitDocumentFilter(10));
     }
 
     /**
@@ -44,6 +76,8 @@ public class registerFrame extends javax.swing.JFrame {
         title9 = new javax.swing.JLabel();
         bankBranchCB = new javax.swing.JComboBox<>();
         title11 = new javax.swing.JLabel();
+        phoneNumber = new javax.swing.JTextField();
+        title13 = new javax.swing.JLabel();
         title4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         decor2 = new javax.swing.JPanel();
@@ -53,10 +87,12 @@ public class registerFrame extends javax.swing.JFrame {
         title7 = new javax.swing.JLabel();
         signUp = new javax.swing.JButton();
         passwordRe = new javax.swing.JPasswordField();
-        title10 = new javax.swing.JLabel();
         passwordShowBox = new javax.swing.JCheckBox();
         title12 = new javax.swing.JLabel();
         signIn = new javax.swing.JButton();
+        title14 = new javax.swing.JLabel();
+        emailAddress = new javax.swing.JTextField();
+        title15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -113,6 +149,17 @@ public class registerFrame extends javax.swing.JFrame {
         title11.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
         title11.setText("Bank Branch");
 
+        phoneNumber.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        phoneNumber.setSelectionColor(new java.awt.Color(255, 255, 255));
+        phoneNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phoneNumberActionPerformed(evt);
+            }
+        });
+
+        title13.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
+        title13.setText("Phone Number");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -129,7 +176,9 @@ public class registerFrame extends javax.swing.JFrame {
                     .addComponent(accountName)
                     .addComponent(addressTF)
                     .addComponent(title9, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
-                    .addComponent(title11, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE))
+                    .addComponent(title11, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                    .addComponent(phoneNumber)
+                    .addComponent(title13, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -151,11 +200,15 @@ public class registerFrame extends javax.swing.JFrame {
                 .addComponent(title9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addressTF, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(title13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(phoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
                 .addComponent(title11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bankBranchCB, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         title4.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
@@ -202,9 +255,6 @@ public class registerFrame extends javax.swing.JFrame {
 
         passwordRe.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
-        title10.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
-        title10.setText("Re-Enter Password");
-
         passwordShowBox.setBackground(new java.awt.Color(255, 255, 255));
         passwordShowBox.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
         passwordShowBox.setText("Show Password");
@@ -232,27 +282,43 @@ public class registerFrame extends javax.swing.JFrame {
             }
         });
 
+        title14.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
+        title14.setText("Email Address");
+
+        emailAddress.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        emailAddress.setSelectionColor(new java.awt.Color(255, 255, 255));
+        emailAddress.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailAddressActionPerformed(evt);
+            }
+        });
+
+        title15.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
+        title15.setText("Re-Enter Password");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(decor2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(title6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(title7, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
-                            .addComponent(signUp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(password)
-                            .addComponent(passwordRe)
-                            .addComponent(title10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(passwordShowBox, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(title12, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(accountBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(passwordShowBox, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(decor2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(title6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(signUp, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(password, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passwordRe, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(title7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(title12, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(accountBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(emailAddress)
+                            .addComponent(title14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(title15, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addComponent(signIn, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
@@ -261,27 +327,31 @@ public class registerFrame extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(95, 95, 95)
                 .addComponent(decor2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                .addGap(28, 28, 28)
+                .addComponent(title14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(emailAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(title7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(accountBalance, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(title12, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
+                .addGap(18, 18, 18)
                 .addComponent(title6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25)
-                .addComponent(title10)
+                .addGap(18, 18, 18)
+                .addComponent(title15)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordRe, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(passwordShowBox)
-                .addGap(26, 26, 26)
+                .addGap(12, 12, 12)
                 .addComponent(signUp, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(signIn, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout backgroundPanelLayout = new javax.swing.GroupLayout(backgroundPanel);
@@ -302,10 +372,10 @@ public class registerFrame extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(title4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -325,67 +395,134 @@ public class registerFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    public void resetColors() {
+        Color normalColor = new Color(255, 255, 255); // Default Color
+        accountName.setBackground(normalColor);
+        accountBalance.setBackground(normalColor);
+        addressTF.setBackground(normalColor);
+        phoneNumber.setBackground(normalColor);
+        emailAddress.setBackground(normalColor);
+        accountBalance.setBackground(normalColor);
+        password.setBackground(normalColor);
+        passwordRe.setBackground(normalColor);
+    }
+
     private void signUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpActionPerformed
         // Sign Up Button Action
         boolean errorTriggered = false;
-        
-        int accNo =  Integer.parseInt(accountNum.getText());
+        Color errorRed = new Color(255, 219, 219); // Error Color
+
+        int accNo = Integer.parseInt(accountNum.getText());
         String bankBranch = (String) bankBranchCB.getSelectedItem();
         String accHolderName = "";
         BigDecimal balance = new BigDecimal(0);
         String address = "";
         String pass = "";
         String passRe = "";
-        
-        // First let's do a soft error check, so that are parameters don't cause an error
-        
+
+        // Then let's do a soft error check, so that are parameters don't cause an error
         // Checking for valid name
         if (accountName.getText().length() >= 1) {
             accHolderName = accountName.getText();
         } else {
             errorTriggered = true;
+            accountName.setBackground(errorRed);
             JOptionPane.showMessageDialog(
-                null, 
-                "Invalid Name!\nName's Don't Contain Numbers", 
-                "Account Creation Error", 
+                null,
+                "Invalid Account Name, Too Short!\n[Please Try Again]",
+                "Account Creation Error",
                 JOptionPane.WARNING_MESSAGE
             );
         }
-        // Checking for valid balance
-        if (accountBalance.getText().length() >= 1) {
-            balance = new BigDecimal(accountBalance.getText());
-            if (balance.compareTo(BigDecimal.ZERO) <= 0) {
+
+        // Checking for valid address [xx xxxx]
+        if (addressTF.getText().length() >= 7) {
+            address = addressTF.getText();
+        } else {
+            errorTriggered = true;
+            addressTF.setBackground(errorRed);
+            JOptionPane.showMessageDialog(
+                null,
+                "Invalid Address, Too Small\n\n[Address Format]:\n[Two Numbers][Street, Length Greater Than 3]",
+                "Account Creation Error",
+                JOptionPane.WARNING_MESSAGE
+            );
+        }
+
+        // Checking the phone number
+        String phone = phoneNumber.getText();
+        if (phone.length() != 10) {
+            errorTriggered = true;
+            phoneNumber.setBackground(errorRed);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid Phone Number!\n[Phone Number Must Be 10 Numbers]",
+                    "Account Creation Error",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        }
+
+        // Checking the email address
+        String email = emailAddress.getText();
+        
+        // Checking for valid email
+        if (email.length() <= 2) {
+            errorTriggered = true;
+            emailAddress.setBackground(errorRed);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid Email Size!\n[Please Enter a Valid Email]",
+                    "Account Creation Error",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        } else {
+            if (email.indexOf('@') == -1 || email.indexOf('.') == -1) {
                 errorTriggered = true;
+                emailAddress.setBackground(errorRed);
                 JOptionPane.showMessageDialog(
-                    null, 
-                    "Deposit Amount Cannot Be Negative!\n[Please Try Again]", 
-                    "Account Creation Error", 
+                        null,
+                        "Invalid Email Address!\n[Missing @]\nOR\n[Missing .com, .ca, .org]",
+                        "Account Creation Error",
+                        JOptionPane.WARNING_MESSAGE
+                );
+            }
+        }
+        
+        // Checking for valid balance
+        if (accountBalance.getText().matches("[0-9]+")) {
+            if (accountBalance.getText().length() >= 1) {
+                balance = new BigDecimal(accountBalance.getText());
+                if (balance.compareTo(BigDecimal.ZERO) <= 0) {
+                    errorTriggered = true;
+                    accountBalance.setBackground(errorRed);
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "Account Balance Too Small!\n[Please Try Again]",
+                        "Account Creation Error",
+                        JOptionPane.WARNING_MESSAGE
+                    );
+                }
+            } else {
+                errorTriggered = true;
+                accountBalance.setBackground(errorRed);
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid Account Balance!\n[Please Try Again]",
+                    "Account Creation Error",
                     JOptionPane.WARNING_MESSAGE
                 );
             }
         } else {
             errorTriggered = true;
-            JOptionPane.showMessageDialog(
-                null, 
-                "Invalid Account Deposit Balance!\n[Please Try Again]", 
-                "Account Creation Error", 
+                accountBalance.setBackground(errorRed);
+                JOptionPane.showMessageDialog(
+                null,
+                "Invalid Account Balance!\n[Balance Must Be In All Numbers]\n[Please Try Again]",
+                "Account Creation Error",
                 JOptionPane.WARNING_MESSAGE
             );
         }
         
-        // Checking for valid address [xx xxxx
-        if (addressTF.getText().length() >= 7) {
-            address = addressTF.getText();
-        } else {
-            errorTriggered = true;
-            JOptionPane.showMessageDialog(
-                null, 
-                "Invalid Address\n\n[Address Format]:\n[Two Numbers][Street, Length Greater Than 3]",
-                "Account Creation Error", 
-                JOptionPane.WARNING_MESSAGE
-            );
-        }
-
         // Checking for valid passwords
         if (password.getText().equals(passwordRe.getText())) {
             if (password.getText().length() >= 8) {
@@ -393,31 +530,34 @@ public class registerFrame extends javax.swing.JFrame {
                 passRe = String.valueOf(passwordRe.getPassword());
             } else {
                 errorTriggered = true;
-               JOptionPane.showMessageDialog(
-                       null, 
-                       "Invalid Password\n\n[Passmust Must Contain]:\n1 Uppercase, 1 Lowercase, and a Length Greater Than 7", 
-                       "Account Creation Error",
-                       JOptionPane.WARNING_MESSAGE
-               );
+                password.setBackground(errorRed);
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Invalid Password\n\n[Passmust Must Contain]:\n1 Uppercase, 1 Lowercase, and a Length Greater Than 7",
+                        "Account Creation Error",
+                        JOptionPane.WARNING_MESSAGE
+                );
             }
         } else {
             errorTriggered = true;
+            password.setBackground(errorRed);
+            passwordRe.setBackground(errorRed);
             JOptionPane.showMessageDialog(
-                null, 
-                "Passwords Don't Match!\n[Please Try Again]", 
-                "Account Creation Error", 
-                JOptionPane.WARNING_MESSAGE
+                    null,
+                    "Passwords Don't Match!\n[Please Try Again]",
+                    "Account Creation Error",
+                    JOptionPane.WARNING_MESSAGE
             );
         }
-        
+
         // Displaying to console
         System.out.println(
-        "Account No: " + accNo + "\nAccount Holder's Name: " + accHolderName + "\nBalance: " + balance
-        + "\nAddress: " + address + "\nBank Branch: " + bankBranch + "\nPassword: " + pass + "\nPassword Re-Enter: " + passRe + "\n========");
+                "Account No: " + accNo + "\nAccount Holder's Name: " + accHolderName + "\nBalance: " + balance
+                + "\nAddress: " + address + "\nBank Branch: " + bankBranch + "\nPassword: " + pass + "\nPassword Re-Enter: " + passRe + "\n========");
 
         // Attempting to create an account
         if (errorTriggered == false) {
-            String attempt = mainHandler.generateNewUser(accNo, accHolderName, balance, address, pass, bankBranch);
+            String attempt = mainHandler.generateNewUser(accNo, accHolderName, balance, address, pass, bankBranch, phone, email);
             if (!attempt.equals("Success")) {
                 JOptionPane.showMessageDialog(null, attempt, "Account Creation Error", JOptionPane.WARNING_MESSAGE);
             } else {
@@ -427,6 +567,9 @@ public class registerFrame extends javax.swing.JFrame {
                 frame.setVisible(true);
             }
         }
+
+        // Reset the colors, maybe the user didn't create an account
+        resetColors();
     }//GEN-LAST:event_signUpActionPerformed
 
     private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
@@ -442,8 +585,8 @@ public class registerFrame extends javax.swing.JFrame {
     private void passwordShowBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordShowBoxActionPerformed
         // Turning our password boxes visble
         if (passwordShowBox.isSelected()) {
-            password.setEchoChar((char)0);
-            passwordRe.setEchoChar((char)0);
+            password.setEchoChar((char) 0);
+            passwordRe.setEchoChar((char) 0);
         } else {
             password.setEchoChar('*');
             passwordRe.setEchoChar('*');
@@ -453,6 +596,14 @@ public class registerFrame extends javax.swing.JFrame {
     private void addressTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressTFActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addressTFActionPerformed
+
+    private void phoneNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneNumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_phoneNumberActionPerformed
+
+    private void emailAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailAddressActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_emailAddressActionPerformed
 
     /**
      * @param args the command line arguments
@@ -497,22 +648,23 @@ public class registerFrame extends javax.swing.JFrame {
     private javax.swing.JPanel backgroundPanel;
     private javax.swing.JComboBox<String> bankBranchCB;
     private javax.swing.JPanel decor;
-    private javax.swing.JPanel decor1;
     private javax.swing.JPanel decor2;
+    private javax.swing.JTextField emailAddress;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPasswordField password;
     private javax.swing.JPasswordField passwordRe;
     private javax.swing.JCheckBox passwordShowBox;
+    private javax.swing.JTextField phoneNumber;
     private javax.swing.JButton signIn;
     private javax.swing.JButton signUp;
     private javax.swing.JLabel title;
-    private javax.swing.JLabel title10;
     private javax.swing.JLabel title11;
     private javax.swing.JLabel title12;
+    private javax.swing.JLabel title13;
+    private javax.swing.JLabel title14;
+    private javax.swing.JLabel title15;
     private javax.swing.JLabel title2;
-    private javax.swing.JLabel title3;
     private javax.swing.JLabel title4;
     private javax.swing.JLabel title6;
     private javax.swing.JLabel title7;

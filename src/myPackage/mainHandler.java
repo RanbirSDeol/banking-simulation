@@ -28,7 +28,7 @@ public class mainHandler {
     
     // Generating a accNo value
     public static int generateID() {
-        int tempID = 100000 + rnd.nextInt(90000000); // 8 Digit Random Number
+        int tempID = 10000000 + rnd.nextInt(90000000); // 8 Digit Random Number
         return tempID;
     }
     

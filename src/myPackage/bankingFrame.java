@@ -28,36 +28,212 @@ public class bankingFrame extends javax.swing.JFrame {
 
         backgroundPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        title4 = new javax.swing.JLabel();
+        bankImage = new javax.swing.JLabel();
+        signIn = new javax.swing.JButton();
+        dashboard = new javax.swing.JPanel();
+        signIn1 = new javax.swing.JButton();
+        signIn2 = new javax.swing.JButton();
+        signIn3 = new javax.swing.JButton();
+        signIn7 = new javax.swing.JButton();
+        signIn8 = new javax.swing.JButton();
+        signIn9 = new javax.swing.JButton();
+        mainContent = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
 
-        backgroundPanel.setBackground(new java.awt.Color(70, 144, 255));
+        backgroundPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 254));
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        title4.setBackground(new java.awt.Color(255, 255, 255));
+        title4.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
+        title4.setForeground(new java.awt.Color(70, 144, 255));
+        title4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title4.setText("Commercial Banking™");
+        title4.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        bankImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        bankImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/myPackage/Bank Icon.png"))); // NOI18N
+
+        signIn.setBackground(new java.awt.Color(70, 144, 255));
+        signIn.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        signIn.setForeground(new java.awt.Color(255, 255, 255));
+        signIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/myPackage/Logout (1).png"))); // NOI18N
+        signIn.setText(" Logout");
+        signIn.setFocusable(false);
+        signIn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signInActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1082, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(bankImage)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(title4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 655, Short.MAX_VALUE)
+                .addComponent(signIn, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 68, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bankImage, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 6, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(signIn, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(title4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
+
+        dashboard.setBackground(new java.awt.Color(70, 144, 255));
+        dashboard.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        signIn1.setBackground(new java.awt.Color(255, 255, 254));
+        signIn1.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        signIn1.setForeground(new java.awt.Color(70, 144, 255));
+        signIn1.setText("Dashboard");
+        signIn1.setFocusable(false);
+        signIn1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        signIn1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        signIn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signIn1ActionPerformed(evt);
+            }
+        });
+
+        signIn2.setBackground(new java.awt.Color(255, 255, 254));
+        signIn2.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        signIn2.setForeground(new java.awt.Color(70, 144, 255));
+        signIn2.setText("Withdraw");
+        signIn2.setFocusable(false);
+        signIn2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        signIn2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        signIn2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signIn2ActionPerformed(evt);
+            }
+        });
+
+        signIn3.setBackground(new java.awt.Color(255, 255, 254));
+        signIn3.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        signIn3.setForeground(new java.awt.Color(70, 144, 255));
+        signIn3.setText("Deposit");
+        signIn3.setFocusable(false);
+        signIn3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        signIn3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        signIn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signIn3ActionPerformed(evt);
+            }
+        });
+
+        signIn7.setBackground(new java.awt.Color(255, 255, 254));
+        signIn7.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        signIn7.setForeground(new java.awt.Color(70, 144, 255));
+        signIn7.setText("Fund Transfer");
+        signIn7.setFocusable(false);
+        signIn7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        signIn7.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        signIn7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signIn7ActionPerformed(evt);
+            }
+        });
+
+        signIn8.setBackground(new java.awt.Color(255, 255, 254));
+        signIn8.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        signIn8.setForeground(new java.awt.Color(70, 144, 255));
+        signIn8.setText("Transactions");
+        signIn8.setFocusable(false);
+        signIn8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        signIn8.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        signIn8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signIn8ActionPerformed(evt);
+            }
+        });
+
+        signIn9.setBackground(new java.awt.Color(255, 255, 254));
+        signIn9.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        signIn9.setForeground(new java.awt.Color(70, 144, 255));
+        signIn9.setText("Settings");
+        signIn9.setToolTipText("");
+        signIn9.setFocusable(false);
+        signIn9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        signIn9.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        signIn9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signIn9ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout dashboardLayout = new javax.swing.GroupLayout(dashboard);
+        dashboard.setLayout(dashboardLayout);
+        dashboardLayout.setHorizontalGroup(
+            dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashboardLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(signIn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(signIn2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(signIn3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(signIn7, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                    .addComponent(signIn8, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                    .addComponent(signIn9, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        dashboardLayout.setVerticalGroup(
+            dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashboardLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(signIn1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(signIn3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(signIn2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(signIn7, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(signIn8, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(signIn9, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(165, Short.MAX_VALUE))
+        );
+
+        mainContent.setBackground(new java.awt.Color(255, 255, 254));
+        mainContent.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        mainContent.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout backgroundPanelLayout = new javax.swing.GroupLayout(backgroundPanel);
         backgroundPanel.setLayout(backgroundPanelLayout);
         backgroundPanelLayout.setHorizontalGroup(
             backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(backgroundPanelLayout.createSequentialGroup()
+                .addComponent(dashboard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         backgroundPanelLayout.setVerticalGroup(
             backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(backgroundPanelLayout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 630, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(backgroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mainContent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -74,6 +250,34 @@ public class bankingFrame extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
+        
+    }//GEN-LAST:event_signInActionPerformed
+
+    private void signIn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_signIn1ActionPerformed
+
+    private void signIn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_signIn2ActionPerformed
+
+    private void signIn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_signIn3ActionPerformed
+
+    private void signIn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn7ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_signIn7ActionPerformed
+
+    private void signIn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_signIn8ActionPerformed
+
+    private void signIn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_signIn9ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -112,6 +316,17 @@ public class bankingFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel backgroundPanel;
+    private javax.swing.JLabel bankImage;
+    private javax.swing.JPanel dashboard;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel mainContent;
+    private javax.swing.JButton signIn;
+    private javax.swing.JButton signIn1;
+    private javax.swing.JButton signIn2;
+    private javax.swing.JButton signIn3;
+    private javax.swing.JButton signIn7;
+    private javax.swing.JButton signIn8;
+    private javax.swing.JButton signIn9;
+    private javax.swing.JLabel title4;
     // End of variables declaration//GEN-END:variables
 }

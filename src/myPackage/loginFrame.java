@@ -254,6 +254,9 @@ public class loginFrame extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Wrong Password!", "Login Error", JOptionPane.WARNING_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, "You Have Logged In Successfully!", "Login Successful!", JOptionPane.INFORMATION_MESSAGE);
+                        // Now let's close the loginFrame, and open the main frame
+                        this.setVisible(false);
+                        new bankingFrame().setVisible(true);
                     }
                 } else {
                     password.setBackground(errorRed);

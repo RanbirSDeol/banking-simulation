@@ -532,10 +532,10 @@ public class registerFrame extends javax.swing.JFrame {
                 errorTriggered = true;
                 password.setBackground(errorRed);
                 JOptionPane.showMessageDialog(
-                        null,
-                        "Invalid Password\n\n[Passmust Must Contain]:\n1 Uppercase, 1 Lowercase, and a Length Greater Than 7",
-                        "Account Creation Error",
-                        JOptionPane.WARNING_MESSAGE
+                    null,
+                    "Invalid Password\n\n[Passmust Must Contain]:\n1 Uppercase, 1 Lowercase, and a Length Greater Than 7",
+                    "Account Creation Error",
+                    JOptionPane.WARNING_MESSAGE
                 );
             }
         } else {

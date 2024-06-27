@@ -16,21 +16,26 @@ public class user extends mainHandler {
     
     private int accNo; // Users account number
     private String accHolderName; // Users account holder name
-    private BigDecimal balance; // Users balance
     private String address; // Users address
     private String password; // Users password
     private String bankBranch; // The user's bank's name
     private String phoneNumber; // The user's phone number
     private String emailAddress; // The user's email address;
     // Here we'll add the banking accounts [No need to construct this yet]
-    private ArrayList<String> transactions; // Users transactions
+    private ArrayList<transaction> transactions; // Users transactions
+    // Let's add the types of banking here
+    private double balanceSavings = 0;
+    private double balanceChequing = 0;
+    private double balanceVisa = 0; 
+    private double visaLimit = 2000; // Basic limit for visa
+    
     
     // Constructor
-    user(int accNo, String accHolderName, BigDecimal balance, String address,
-            String password, String bankBranch, String phoneNumber, String emailAddress, ArrayList<String> transactions) {
+    user(int accNo, String accHolderName, double deposit, String address,
+            String password, String bankBranch, String phoneNumber, String emailAddress, ArrayList<transaction> transactions) {
         this.accNo = accNo;
         this.accHolderName = accHolderName;
-        this.balance = balance;
+        this.balanceSavings = deposit;
         this.address = address;
         this.password = password;
         this.bankBranch = bankBranch;
@@ -40,6 +45,56 @@ public class user extends mainHandler {
     }
     
     // Methods
+    
+    public void updateTransactions(transaction t) {
+        this.transactions.add(t);
+    }
+    
+    public void internalTransfer(String from, String to, double amount) {
+        System.out.println(from + " | " + to + " | " + amount);
+        switch (from) {
+            case "Chequing" -> {
+                if (to.equals("Savings")) {
+                    // Chequing -> Savings
+                    this.balanceChequing -= amount;
+                    this.balanceSavings += amount;
+                } else if (to.equals("Visa")) {
+                    // Chequing -> Visa
+                    this.balanceChequing -= amount;
+                    this.balanceVisa += amount;
+                }
+            }
+            case "Savings" -> {
+                if (to.equals("Chequing")) {
+                    // Savings -> Chequing
+                    System.out.println("HERE");
+                    this.balanceSavings -= amount;
+                    this.balanceChequing += amount;
+                } else if (to.equals("Visa")) {
+                    // Savings -> Visa
+                    this.balanceSavings -= amount;
+                    this.balanceVisa += amount;
+                }
+            }
+            case "Visa" -> {
+                if (to.equals("Chequing")) {
+                    // Visa -> Chequing
+                    this.balanceVisa -= amount;
+                    this.balanceChequing += amount;
+                } else if (to.equals("Savings")) {
+                    // Visa -> Savings
+                    this.balanceVisa -= amount;
+                    this.balanceSavings += amount;
+                }
+            }
+            default -> {
+            }
+        }
+    }
+    
+    public void externalTransfer() {
+        
+    }
     
     // Accessors
     
@@ -51,8 +106,16 @@ public class user extends mainHandler {
         return this.accHolderName;
     }
     
-    public BigDecimal getBalance() {
-        return this.balance;
+    public double getSavings() {
+        return this.balanceSavings;
+    }
+    
+    public double getChequing(){
+        return this.balanceChequing;
+    }
+    
+    public double getVisa() {
+        return this.balanceVisa;
     }
     
     public String getAddress() {
@@ -67,7 +130,15 @@ public class user extends mainHandler {
         return this.bankBranch;
     }
     
-    public ArrayList<String> getTransactions() {
+    public String getPhoneNum() {
+        return this.phoneNumber;
+    }
+    
+    public String getEmail(){
+        return this.emailAddress;
+    }
+    
+    public ArrayList<transaction> getTransactions() {
         return this.transactions;
     }
 }

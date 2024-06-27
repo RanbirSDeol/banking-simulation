@@ -23,8 +23,9 @@ public class mainHandler {
     static String[] bankBranches = {"CB Branch Brampton", "CB Branch Townsvilla", "CB Branch Longtown", "CB Branch Toronto", "CB Branch USA", "CB Branch Mexico"};
     
     private static ArrayList<user> userList = new ArrayList(); // List of all our users [no data saving, only restricted to session]
-    private static Set<Integer> existingAccountNumbers = new HashSet<>(); // A list of all our users account IDs
-    private static Random rnd = new Random(); 
+    private static Set<Integer> existingAccountNumbers = new HashSet<>(); // A list of all our users account ID
+    private static user currentUser = null; // Our current logged in user
+    private final static Random rnd = new Random(); 
     
     // Generating a accNo value
     public static int generateID() {
@@ -53,13 +54,15 @@ public class mainHandler {
      * 
      * @param accNo: the account number of the user [unique]
      * @param accHolderName: the account users name
-     * @param balance: the accounts balance
+     * @param deposit: the accounts beginning balance
      * @param address: the address of the user
      * @param password: the password of the account
      * @param bankBranch: the bank branch the user registered with
+     * @param phoneNumber : the user's phone number
+     * @param emailAddress : the users email address
      * @return returns the status of the generation, success or an error message that'll display
      */
-    public static String generateNewUser(int accNo, String accHolderName, BigDecimal balance, String address,
+    public static String generateNewUser(int accNo, String accHolderName, double deposit, String address,
             String password, String bankBranch, String phoneNumber, String emailAddress) {
         
         // Here let's check to make sure our values are valid [We already did a soft check from the registerFrame]
@@ -112,8 +115,8 @@ public class mainHandler {
         
         // If we pass all the conditions, let's create the account and register it!
         
-        ArrayList<String> transactions = new ArrayList<>(); // Transactions will be empty, new account
-        user newUser = new user(accNo, accHolderName, balance, address, password, bankBranch, phoneNumber, emailAddress, transactions); // Feeding the params
+        ArrayList<transaction> transactions = new ArrayList<>(); // Transactions will be empty, new account
+        user newUser = new user(accNo, accHolderName, deposit, address, password, bankBranch, phoneNumber, emailAddress, transactions); // Feeding the params
         userList.add(newUser); // Adding our new user to our list
         existingAccountNumbers.add(accNo); // Adding the users ID to our list, since here we've done all our checks
         
@@ -133,6 +136,7 @@ public class mainHandler {
             if (Integer.parseInt(accountNumber) == localUser.getAccNo()) {
                 // Account Number's Matched
                 if (password.equals(localUser.getPassword())) {
+                    currentUser = localUser; // Adding the current user to our var
                     return "Success";
                 } else {
                     // Maybe add reset password feature in the future?
@@ -143,21 +147,59 @@ public class mainHandler {
     }
     
     /**
+     * accountTransfer is a function which is called from bankingFrame
+     * and it initiates a transfer for the user, which is then displayed
+     * the user values are handled from within the user class
+     * 
+     * @param from : Where the money is coming from
+     * @param to : Where the money is going to
+     * @param balance : The amount being transferred
+     */
+    public static void accountTransfer(String from, String to, double balance) {
+        if (currentUser != null) {
+            System.out.println("Attempting Transfer");
+            // Let's transfer the money
+            currentUser.internalTransfer(from, to, balance);
+            // Let's get our current transaction id, and then increment by one
+            int id = currentUser.getTransactions().size();
+            // Then we'll add our transfer to our users transaction list
+            transaction transfer = new transaction(String.valueOf(id += 1), "Account Transfer", String.valueOf(balance), from, to);
+            currentUser.updateTransactions(transfer);
+            System.out.println("Transfer Complete!");
+        }
+    }
+    
+    /**
      * This function starts the mainHandler, it runs after the loadingFrame has finished loading
      */
     public static void run() {
         // Creating our "Admin" user, it'll be used for testing
-        BigDecimal initialBalance = new BigDecimal("24.2");
-        ArrayList<String> initialTransactions = new ArrayList<>();
+        ArrayList<transaction> initialTransactions = new ArrayList<>();
         
-        user adminUser = new user(11111111, "Admin", initialBalance, "31 Main Street", "Admin12345", 
+        user adminUser = new user(11111111, "Admin", 50.0, "31 Main Street", "Admin12345", 
                 bankBranches[0], "1234567890", "admin@gmail.com", initialTransactions);
         
         existingAccountNumbers.add(11111111);
-        System.out.println("Admin ID: " + adminUser.getAccNo());
         
         // Adding the admin user, this is a testing account
         userList.add(adminUser);
+    }
+    
+    /**
+     * 
+     * @return : returns the current logged in users information to display
+     */
+    public static user getInformation() {
+        if (currentUser != null) {
+            return currentUser;
+        } else {  
+            return null;
+        }
+    }
+    
+    public static void logOut() {
+        // Removing the current user
+        user currentUser = null;
     }
     
     public static void main(String args[]) {

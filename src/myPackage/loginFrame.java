@@ -125,7 +125,6 @@ public class loginFrame extends javax.swing.JFrame {
 
         registerButton.setBackground(new java.awt.Color(255, 255, 254));
         registerButton.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        registerButton.setForeground(new java.awt.Color(70, 144, 255));
         registerButton.setText("Don't Have An Account? Register Here");
         registerButton.setFocusable(false);
         registerButton.setRequestFocusEnabled(false);
@@ -254,9 +253,13 @@ public class loginFrame extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Wrong Password!", "Login Error", JOptionPane.WARNING_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, "You Have Logged In Successfully!", "Login Successful!", JOptionPane.INFORMATION_MESSAGE);
-                        // Now let's close the loginFrame, and open the main frame
+                        // Now let's close the loginFrame
                         this.setVisible(false);
-                        new bankingFrame().setVisible(true);
+                       
+                        // Here lets update all the information in the bankingFrame
+                        
+                        // And then let's display the bankingFrame
+                         new bankingFrame().setVisible(true); 
                     }
                 } else {
                     password.setBackground(errorRed);

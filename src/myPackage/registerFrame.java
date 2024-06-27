@@ -117,9 +117,10 @@ public class registerFrame extends javax.swing.JFrame {
             .addGap(0, 13, Short.MAX_VALUE)
         );
 
+        accountNum.setEditable(false);
+        accountNum.setBackground(new java.awt.Color(212, 212, 212));
         accountNum.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         accountNum.setText("12345678");
-        accountNum.setEnabled(false);
         accountNum.setSelectionColor(new java.awt.Color(255, 255, 255));
 
         title2.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
@@ -272,7 +273,6 @@ public class registerFrame extends javax.swing.JFrame {
 
         signIn.setBackground(new java.awt.Color(255, 255, 254));
         signIn.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        signIn.setForeground(new java.awt.Color(70, 144, 255));
         signIn.setText("Already Have An Account? Sign In Here");
         signIn.setFocusable(false);
         signIn.setRequestFocusEnabled(false);
@@ -396,7 +396,7 @@ public class registerFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void resetColors() {
-        Color normalColor = new Color(255, 255, 255); // Default Color
+        Color normalColor = new Color(255, 255, 254); // Default Color
         accountName.setBackground(normalColor);
         accountBalance.setBackground(normalColor);
         addressTF.setBackground(normalColor);
@@ -415,7 +415,7 @@ public class registerFrame extends javax.swing.JFrame {
         int accNo = Integer.parseInt(accountNum.getText());
         String bankBranch = (String) bankBranchCB.getSelectedItem();
         String accHolderName = "";
-        BigDecimal balance = new BigDecimal(0);
+        double balance = -1;
         String address = "";
         String pass = "";
         String passRe = "";
@@ -488,16 +488,16 @@ public class registerFrame extends javax.swing.JFrame {
             }
         }
         
-        // Checking for valid balance
+        // Checking for valid deposit amount
         if (accountBalance.getText().matches("[0-9]+")) {
             if (accountBalance.getText().length() >= 1) {
-                balance = new BigDecimal(accountBalance.getText());
-                if (balance.compareTo(BigDecimal.ZERO) <= 0) {
+                balance = Double.parseDouble(accountBalance.getText());
+                if (balance <= 0) {
                     errorTriggered = true;
                     accountBalance.setBackground(errorRed);
                     JOptionPane.showMessageDialog(
                         null,
-                        "Account Balance Too Small!\n[Please Try Again]",
+                        "Account Deposit Too Small!\n[Please Try Again]",
                         "Account Creation Error",
                         JOptionPane.WARNING_MESSAGE
                     );
@@ -507,7 +507,7 @@ public class registerFrame extends javax.swing.JFrame {
                 accountBalance.setBackground(errorRed);
                 JOptionPane.showMessageDialog(
                     null,
-                    "Invalid Account Balance!\n[Please Try Again]",
+                    "Invalid Account Deposit!\n[Please Try Again]",
                     "Account Creation Error",
                     JOptionPane.WARNING_MESSAGE
                 );
@@ -517,7 +517,7 @@ public class registerFrame extends javax.swing.JFrame {
                 accountBalance.setBackground(errorRed);
                 JOptionPane.showMessageDialog(
                 null,
-                "Invalid Account Balance!\n[Balance Must Be In All Numbers]\n[Please Try Again]",
+                "Invalid Account Deposit!\n[Balance Must Be In All Numbers]\n[Please Try Again]",
                 "Account Creation Error",
                 JOptionPane.WARNING_MESSAGE
             );

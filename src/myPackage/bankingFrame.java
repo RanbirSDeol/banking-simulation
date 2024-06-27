@@ -4,6 +4,14 @@
  */
 package myPackage;
 
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Ranbir
@@ -11,10 +19,76 @@ package myPackage;
 public class bankingFrame extends javax.swing.JFrame {
 
     /**
+     * Desc: Resets our buttons, so that our selected button can be highlighted
+     */
+    public void resetButtons() {
+        Color white = new Color(255,255,254);
+        dashboardButton.setBackground(white);
+        fundTransferButton.setBackground(white);
+    }
+    
+    /**
+     * 
+     */
+    public void update() {
+        // Let us then initialize our banking information by getting in the logged in user
+        user localUser = mainHandler.getInformation();
+        localUser.getAccName();
+        
+        // Setting up the dashboard
+        userName.setText("Hello, " + localUser.getAccName());
+        accountNum.setText(String.valueOf(localUser.getAccNo()));
+        
+        // We need to format our phoneNumber xxx-xxx-xxxx
+        String formattedPhoneNum = localUser.getPhoneNum().replaceFirst("(\\d{3})(\\d{3})(\\d+)", "$1-$2-$3"); 
+        phoneNumber.setText(formattedPhoneNum);
+        
+        // Continue adding the texts to our dashboard
+        email.setText(localUser.getEmail());
+        address.setText(localUser.getAddress());
+        
+        branch.setText(localUser.getBankBranch());
+        
+        chequing.setText("$" + String.valueOf(localUser.getChequing()));
+        savings.setText("$" + String.valueOf(localUser.getSavings()));
+        visa.setText("$" + String.valueOf(localUser.getVisa()));
+        
+        // Now let's initilize our table of recent transactions [We'll only display the latest 5]
+        
+        ArrayList<transaction> transactionsArray = localUser.getTransactions();
+        
+        // Let's clear our table
+        
+        DefaultTableModel dm = (DefaultTableModel) recentTransactions.getModel();
+        while(dm.getRowCount() > 0)
+        {
+            dm.removeRow(0);
+        }
+        
+        for (transaction t : transactionsArray) {
+            DefaultTableModel model = (DefaultTableModel) recentTransactions.getModel();
+            // ID | Type | Amount | From | To
+            model.addRow(new Object[]{t.getID(), t.getTransactionType(), "$" + t.getAmount(), t.getFrom(), t.getTo()});
+        }
+    }
+    
+    /**
      * Creates new form bankingFrame
      */
     public bankingFrame() {
         initComponents();
+        // First let's edit the table UI to make it easier to read
+        recentTransactions.getTableHeader().setOpaque(false);
+        recentTransactions.getTableHeader().setBackground(new Color(70,144,255));
+        recentTransactions.getTableHeader().setForeground(new Color(255,255,255));
+        
+        // Then let's center our table's text
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER );
+        recentTransactions.setDefaultRenderer(String.class, centerRenderer);
+        
+        // Let's call our update() function, which refreshes the entire UI
+        update();
     }
 
     /**
@@ -26,19 +100,74 @@ public class bankingFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 32767));
         backgroundPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         title4 = new javax.swing.JLabel();
         bankImage = new javax.swing.JLabel();
-        signIn = new javax.swing.JButton();
+        logout = new javax.swing.JButton();
         dashboard = new javax.swing.JPanel();
-        signIn1 = new javax.swing.JButton();
-        signIn2 = new javax.swing.JButton();
-        signIn3 = new javax.swing.JButton();
-        signIn7 = new javax.swing.JButton();
-        signIn8 = new javax.swing.JButton();
-        signIn9 = new javax.swing.JButton();
+        dashboardButton = new javax.swing.JButton();
+        notInService = new javax.swing.JButton();
+        fundTransferButton = new javax.swing.JButton();
+        notInService2 = new javax.swing.JButton();
+        notInService3 = new javax.swing.JButton();
+        notInService4 = new javax.swing.JButton();
         mainContent = new javax.swing.JPanel();
+        dashboardPanel = new javax.swing.JPanel();
+        userInfo = new javax.swing.JPanel();
+        userName = new javax.swing.JLabel();
+        title7 = new javax.swing.JLabel();
+        title8 = new javax.swing.JLabel();
+        title9 = new javax.swing.JLabel();
+        accountNum = new javax.swing.JLabel();
+        address = new javax.swing.JLabel();
+        phoneNumber = new javax.swing.JLabel();
+        email = new javax.swing.JLabel();
+        title6 = new javax.swing.JLabel();
+        title10 = new javax.swing.JLabel();
+        branch = new javax.swing.JLabel();
+        userInfo2 = new javax.swing.JPanel();
+        userName1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        chequing = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        savings = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        visa = new javax.swing.JLabel();
+        userName2 = new javax.swing.JLabel();
+        userName3 = new javax.swing.JLabel();
+        userName4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        recentTransactions = new javax.swing.JTable();
+        title13 = new javax.swing.JLabel();
+        depositPanel = new javax.swing.JPanel();
+        userInfo1 = new javax.swing.JPanel();
+        title = new javax.swing.JLabel();
+        fromBoxAT = new javax.swing.JComboBox<>();
+        amountAT = new javax.swing.JTextField();
+        title2 = new javax.swing.JLabel();
+        title1 = new javax.swing.JLabel();
+        toBoxAT = new javax.swing.JComboBox<>();
+        jPanel3 = new javax.swing.JPanel();
+        title12 = new javax.swing.JLabel();
+        registerButton1 = new javax.swing.JButton();
+        userName9 = new javax.swing.JLabel();
+        userInfo3 = new javax.swing.JPanel();
+        userName8 = new javax.swing.JLabel();
+        amountET = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
+        title14 = new javax.swing.JLabel();
+        title3 = new javax.swing.JLabel();
+        fromBoxET = new javax.swing.JComboBox<>();
+        title5 = new javax.swing.JLabel();
+        registerButton = new javax.swing.JButton();
+        title11 = new javax.swing.JLabel();
+        recieverEmail = new javax.swing.JTextField();
+        title15 = new javax.swing.JLabel();
+        passwordShowBox3 = new javax.swing.JCheckBox();
+        passwordShowBox4 = new javax.swing.JCheckBox();
+        passwordBox = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -58,15 +187,15 @@ public class bankingFrame extends javax.swing.JFrame {
         bankImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         bankImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/myPackage/Bank Icon.png"))); // NOI18N
 
-        signIn.setBackground(new java.awt.Color(70, 144, 255));
-        signIn.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
-        signIn.setForeground(new java.awt.Color(255, 255, 255));
-        signIn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/myPackage/Logout (1).png"))); // NOI18N
-        signIn.setText(" Logout");
-        signIn.setFocusable(false);
-        signIn.addActionListener(new java.awt.event.ActionListener() {
+        logout.setBackground(new java.awt.Color(70, 144, 255));
+        logout.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        logout.setForeground(new java.awt.Color(255, 255, 255));
+        logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/myPackage/Logout (1).png"))); // NOI18N
+        logout.setText(" Logout");
+        logout.setFocusable(false);
+        logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signInActionPerformed(evt);
+                logoutActionPerformed(evt);
             }
         });
 
@@ -79,8 +208,8 @@ public class bankingFrame extends javax.swing.JFrame {
                 .addComponent(bankImage)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(title4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 655, Short.MAX_VALUE)
-                .addComponent(signIn, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -92,7 +221,7 @@ public class bankingFrame extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 6, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(signIn, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(title4, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
@@ -100,82 +229,82 @@ public class bankingFrame extends javax.swing.JFrame {
         dashboard.setBackground(new java.awt.Color(70, 144, 255));
         dashboard.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        signIn1.setBackground(new java.awt.Color(255, 255, 254));
-        signIn1.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
-        signIn1.setForeground(new java.awt.Color(70, 144, 255));
-        signIn1.setText("Dashboard");
-        signIn1.setFocusable(false);
-        signIn1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        signIn1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        signIn1.addActionListener(new java.awt.event.ActionListener() {
+        dashboardButton.setBackground(new java.awt.Color(232, 232, 232));
+        dashboardButton.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        dashboardButton.setForeground(new java.awt.Color(70, 144, 255));
+        dashboardButton.setText("Dashboard");
+        dashboardButton.setFocusable(false);
+        dashboardButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        dashboardButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        dashboardButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signIn1ActionPerformed(evt);
+                dashboardButtonActionPerformed(evt);
             }
         });
 
-        signIn2.setBackground(new java.awt.Color(255, 255, 254));
-        signIn2.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
-        signIn2.setForeground(new java.awt.Color(70, 144, 255));
-        signIn2.setText("Withdraw");
-        signIn2.setFocusable(false);
-        signIn2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        signIn2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        signIn2.addActionListener(new java.awt.event.ActionListener() {
+        notInService.setBackground(new java.awt.Color(255, 255, 254));
+        notInService.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        notInService.setForeground(new java.awt.Color(70, 144, 255));
+        notInService.setText("Requests");
+        notInService.setFocusable(false);
+        notInService.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        notInService.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        notInService.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signIn2ActionPerformed(evt);
+                notInServiceActionPerformed(evt);
             }
         });
 
-        signIn3.setBackground(new java.awt.Color(255, 255, 254));
-        signIn3.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
-        signIn3.setForeground(new java.awt.Color(70, 144, 255));
-        signIn3.setText("Deposit");
-        signIn3.setFocusable(false);
-        signIn3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        signIn3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        signIn3.addActionListener(new java.awt.event.ActionListener() {
+        fundTransferButton.setBackground(new java.awt.Color(255, 255, 254));
+        fundTransferButton.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        fundTransferButton.setForeground(new java.awt.Color(70, 144, 255));
+        fundTransferButton.setText("Transfer");
+        fundTransferButton.setFocusable(false);
+        fundTransferButton.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        fundTransferButton.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        fundTransferButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signIn3ActionPerformed(evt);
+                fundTransferButtonActionPerformed(evt);
             }
         });
 
-        signIn7.setBackground(new java.awt.Color(255, 255, 254));
-        signIn7.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
-        signIn7.setForeground(new java.awt.Color(70, 144, 255));
-        signIn7.setText("Fund Transfer");
-        signIn7.setFocusable(false);
-        signIn7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        signIn7.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        signIn7.addActionListener(new java.awt.event.ActionListener() {
+        notInService2.setBackground(new java.awt.Color(255, 255, 254));
+        notInService2.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        notInService2.setForeground(new java.awt.Color(70, 144, 255));
+        notInService2.setText("N/A");
+        notInService2.setFocusable(false);
+        notInService2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        notInService2.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        notInService2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signIn7ActionPerformed(evt);
+                notInService2ActionPerformed(evt);
             }
         });
 
-        signIn8.setBackground(new java.awt.Color(255, 255, 254));
-        signIn8.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
-        signIn8.setForeground(new java.awt.Color(70, 144, 255));
-        signIn8.setText("Transactions");
-        signIn8.setFocusable(false);
-        signIn8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        signIn8.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        signIn8.addActionListener(new java.awt.event.ActionListener() {
+        notInService3.setBackground(new java.awt.Color(255, 255, 254));
+        notInService3.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        notInService3.setForeground(new java.awt.Color(70, 144, 255));
+        notInService3.setText("N/A");
+        notInService3.setFocusable(false);
+        notInService3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        notInService3.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        notInService3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signIn8ActionPerformed(evt);
+                notInService3ActionPerformed(evt);
             }
         });
 
-        signIn9.setBackground(new java.awt.Color(255, 255, 254));
-        signIn9.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
-        signIn9.setForeground(new java.awt.Color(70, 144, 255));
-        signIn9.setText("Settings");
-        signIn9.setToolTipText("");
-        signIn9.setFocusable(false);
-        signIn9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        signIn9.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        signIn9.addActionListener(new java.awt.event.ActionListener() {
+        notInService4.setBackground(new java.awt.Color(255, 255, 254));
+        notInService4.setFont(new java.awt.Font("Segoe UI", 0, 28)); // NOI18N
+        notInService4.setForeground(new java.awt.Color(70, 144, 255));
+        notInService4.setText("N/A");
+        notInService4.setToolTipText("");
+        notInService4.setFocusable(false);
+        notInService4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        notInService4.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        notInService4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signIn9ActionPerformed(evt);
+                notInService4ActionPerformed(evt);
             }
         });
 
@@ -186,35 +315,689 @@ public class bankingFrame extends javax.swing.JFrame {
             .addGroup(dashboardLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(signIn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(signIn2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(signIn3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(signIn7, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-                    .addComponent(signIn8, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-                    .addComponent(signIn9, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE))
+                    .addComponent(dashboardButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(notInService, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fundTransferButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(notInService2, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                    .addComponent(notInService3, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+                    .addComponent(notInService4, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE))
                 .addContainerGap())
         );
         dashboardLayout.setVerticalGroup(
             dashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(dashboardLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(signIn1, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dashboardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
-                .addComponent(signIn3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(fundTransferButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
-                .addComponent(signIn2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(notInService, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
-                .addComponent(signIn7, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(notInService2, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
-                .addComponent(signIn8, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(notInService3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
-                .addComponent(signIn9, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addComponent(notInService4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainContent.setBackground(new java.awt.Color(255, 255, 254));
         mainContent.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         mainContent.setLayout(new java.awt.CardLayout());
+
+        dashboardPanel.setBackground(new java.awt.Color(255, 255, 254));
+
+        userInfo.setBackground(new java.awt.Color(70, 144, 255));
+
+        userName.setBackground(new java.awt.Color(255, 255, 255));
+        userName.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
+        userName.setForeground(new java.awt.Color(255, 255, 255));
+        userName.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        userName.setText("Hello, Ranbir");
+
+        title7.setBackground(new java.awt.Color(255, 255, 255));
+        title7.setFont(new java.awt.Font("Calibri", 1, 28)); // NOI18N
+        title7.setForeground(new java.awt.Color(255, 255, 255));
+        title7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title7.setText("Email");
+        title7.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        title8.setBackground(new java.awt.Color(255, 255, 255));
+        title8.setFont(new java.awt.Font("Calibri", 1, 28)); // NOI18N
+        title8.setForeground(new java.awt.Color(255, 255, 255));
+        title8.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title8.setText("Phone Number");
+        title8.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        title9.setBackground(new java.awt.Color(255, 255, 255));
+        title9.setFont(new java.awt.Font("Calibri", 1, 28)); // NOI18N
+        title9.setForeground(new java.awt.Color(255, 255, 255));
+        title9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title9.setText("Address");
+        title9.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        accountNum.setBackground(new java.awt.Color(255, 255, 255));
+        accountNum.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        accountNum.setForeground(new java.awt.Color(255, 255, 255));
+        accountNum.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        accountNum.setText("00000000");
+        accountNum.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        address.setBackground(new java.awt.Color(255, 255, 255));
+        address.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        address.setForeground(new java.awt.Color(255, 255, 255));
+        address.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        address.setText("31 Testerstreet Lane");
+        address.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        phoneNumber.setBackground(new java.awt.Color(255, 255, 255));
+        phoneNumber.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        phoneNumber.setForeground(new java.awt.Color(255, 255, 255));
+        phoneNumber.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        phoneNumber.setText("111-111-1111");
+        phoneNumber.setToolTipText("");
+        phoneNumber.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        email.setBackground(new java.awt.Color(255, 255, 255));
+        email.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        email.setForeground(new java.awt.Color(255, 255, 255));
+        email.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        email.setText("test@gmail.com");
+        email.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        title6.setBackground(new java.awt.Color(255, 255, 255));
+        title6.setFont(new java.awt.Font("Calibri", 1, 28)); // NOI18N
+        title6.setForeground(new java.awt.Color(255, 255, 255));
+        title6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title6.setText("Account Number");
+        title6.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        title10.setBackground(new java.awt.Color(255, 255, 255));
+        title10.setFont(new java.awt.Font("Calibri", 1, 28)); // NOI18N
+        title10.setForeground(new java.awt.Color(255, 255, 255));
+        title10.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title10.setText("Branch:");
+        title10.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        branch.setBackground(new java.awt.Color(255, 255, 255));
+        branch.setFont(new java.awt.Font("Segoe UI", 0, 22)); // NOI18N
+        branch.setForeground(new java.awt.Color(255, 255, 255));
+        branch.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        branch.setText("test@gmail.com");
+        branch.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        javax.swing.GroupLayout userInfoLayout = new javax.swing.GroupLayout(userInfo);
+        userInfo.setLayout(userInfoLayout);
+        userInfoLayout.setHorizontalGroup(
+            userInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(userInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(userName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(userInfoLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addGroup(userInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(userInfoLayout.createSequentialGroup()
+                                .addComponent(title10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(branch, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 9, Short.MAX_VALUE))
+                            .addGroup(userInfoLayout.createSequentialGroup()
+                                .addGroup(userInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(accountNum, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(title6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(title7, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(userInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(userInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(title9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(title8, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(phoneNumber, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addContainerGap())
+        );
+        userInfoLayout.setVerticalGroup(
+            userInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(userName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(userInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(userInfoLayout.createSequentialGroup()
+                        .addGroup(userInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(title6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(userInfoLayout.createSequentialGroup()
+                                .addGap(42, 42, 42)
+                                .addComponent(accountNum, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(21, 21, 21)
+                                .addComponent(title7, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(3, 3, 3)
+                        .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(userInfoLayout.createSequentialGroup()
+                        .addGroup(userInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(userInfoLayout.createSequentialGroup()
+                                .addComponent(title8, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(phoneNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(userInfoLayout.createSequentialGroup()
+                                .addGap(99, 99, 99)
+                                .addComponent(title9, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(3, 3, 3)
+                        .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(userInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(title10, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(branch))
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
+        userInfo2.setBackground(new java.awt.Color(70, 144, 255));
+
+        userName1.setBackground(new java.awt.Color(255, 255, 255));
+        userName1.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
+        userName1.setForeground(new java.awt.Color(255, 255, 255));
+        userName1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        userName1.setText("Accounts Overview");
+        userName1.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 254));
+
+        chequing.setBackground(new java.awt.Color(255, 255, 254));
+        chequing.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
+        chequing.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        chequing.setText("$N/A");
+        chequing.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addComponent(chequing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(chequing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 254));
+
+        savings.setBackground(new java.awt.Color(255, 255, 254));
+        savings.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
+        savings.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        savings.setText("$N/A");
+        savings.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addComponent(savings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(savings, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+        );
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 254));
+
+        visa.setBackground(new java.awt.Color(255, 255, 254));
+        visa.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
+        visa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        visa.setText("$N/A");
+        visa.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addComponent(visa, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(visa, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+        );
+
+        userName2.setBackground(new java.awt.Color(255, 255, 255));
+        userName2.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
+        userName2.setForeground(new java.awt.Color(255, 255, 255));
+        userName2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        userName2.setText("Chequing");
+        userName2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        userName3.setBackground(new java.awt.Color(255, 255, 255));
+        userName3.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
+        userName3.setForeground(new java.awt.Color(255, 255, 255));
+        userName3.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        userName3.setText("Visa");
+        userName3.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        userName4.setBackground(new java.awt.Color(255, 255, 255));
+        userName4.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
+        userName4.setForeground(new java.awt.Color(255, 255, 255));
+        userName4.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        userName4.setText("Savings");
+        userName4.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        javax.swing.GroupLayout userInfo2Layout = new javax.swing.GroupLayout(userInfo2);
+        userInfo2.setLayout(userInfo2Layout);
+        userInfo2Layout.setHorizontalGroup(
+            userInfo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userInfo2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(userInfo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(userInfo2Layout.createSequentialGroup()
+                        .addGroup(userInfo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(userName3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(userName2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(userName4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(userInfo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(userName1, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        userInfo2Layout.setVerticalGroup(
+            userInfo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userInfo2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(userName1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(userInfo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userName2, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE))
+                .addGap(35, 35, 35)
+                .addGroup(userInfo2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(userInfo2Layout.createSequentialGroup()
+                        .addComponent(userName4, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(userName3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(userInfo2Layout.createSequentialGroup()
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(26, 26, 26))
+        );
+
+        recentTransactions.setBackground(new java.awt.Color(255, 255, 254));
+        recentTransactions.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        recentTransactions.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Transaction Type", "Amount", "From", "To"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        recentTransactions.setToolTipText("");
+        recentTransactions.setRowHeight(50);
+        jScrollPane1.setViewportView(recentTransactions);
+
+        title13.setBackground(new java.awt.Color(255, 255, 255));
+        title13.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
+        title13.setForeground(new java.awt.Color(70, 144, 255));
+        title13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title13.setText("Recent Transactions");
+        title13.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+
+        javax.swing.GroupLayout dashboardPanelLayout = new javax.swing.GroupLayout(dashboardPanel);
+        dashboardPanel.setLayout(dashboardPanelLayout);
+        dashboardPanelLayout.setHorizontalGroup(
+            dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashboardPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(dashboardPanelLayout.createSequentialGroup()
+                        .addComponent(userInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(userInfo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(dashboardPanelLayout.createSequentialGroup()
+                        .addComponent(title13)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        dashboardPanelLayout.setVerticalGroup(
+            dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dashboardPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(dashboardPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(userInfo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userInfo2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(title13, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+
+        mainContent.add(dashboardPanel, "panelOne");
+
+        depositPanel.setBackground(new java.awt.Color(255, 255, 254));
+
+        userInfo1.setBackground(new java.awt.Color(70, 144, 255));
+
+        title.setBackground(new java.awt.Color(255, 255, 255));
+        title.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
+        title.setForeground(new java.awt.Color(255, 255, 255));
+        title.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title.setText("From");
+
+        fromBoxAT.setBackground(new java.awt.Color(255, 255, 254));
+        fromBoxAT.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        fromBoxAT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chequing", "Savings", "Visa" }));
+
+        amountAT.setBackground(new java.awt.Color(255, 255, 254));
+        amountAT.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        amountAT.setSelectionColor(new java.awt.Color(255, 255, 255));
+        amountAT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                amountATActionPerformed(evt);
+            }
+        });
+
+        title2.setBackground(new java.awt.Color(255, 255, 255));
+        title2.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
+        title2.setForeground(new java.awt.Color(255, 255, 255));
+        title2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title2.setText("Amount");
+
+        title1.setBackground(new java.awt.Color(255, 255, 255));
+        title1.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
+        title1.setForeground(new java.awt.Color(255, 255, 255));
+        title1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title1.setText("To");
+
+        toBoxAT.setBackground(new java.awt.Color(255, 255, 254));
+        toBoxAT.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        toBoxAT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chequing", "Savings", "Visa" }));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 254));
+
+        title12.setFont(new java.awt.Font("Calibri", 0, 48)); // NOI18N
+        title12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title12.setText("$");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(title12, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 12, Short.MAX_VALUE)
+                .addComponent(title12, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        registerButton1.setBackground(new java.awt.Color(255, 255, 254));
+        registerButton1.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        registerButton1.setText("Transfer");
+        registerButton1.setFocusable(false);
+        registerButton1.setRequestFocusEnabled(false);
+        registerButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerButton1ActionPerformed(evt);
+            }
+        });
+
+        userName9.setBackground(new java.awt.Color(255, 255, 255));
+        userName9.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
+        userName9.setForeground(new java.awt.Color(255, 255, 255));
+        userName9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        userName9.setText("(Account Transfer)");
+        userName9.setToolTipText("");
+
+        javax.swing.GroupLayout userInfo1Layout = new javax.swing.GroupLayout(userInfo1);
+        userInfo1.setLayout(userInfo1Layout);
+        userInfo1Layout.setHorizontalGroup(
+            userInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userInfo1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(userInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(fromBoxAT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(title, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(title2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(toBoxAT, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(title1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userInfo1Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(amountAT, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(registerButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userName9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        userInfo1Layout.setVerticalGroup(
+            userInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userInfo1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(userName9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(title)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fromBoxAT, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(title2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(userInfo1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(amountAT)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(title1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(toBoxAT, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(registerButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
+        );
+
+        userInfo3.setBackground(new java.awt.Color(70, 144, 255));
+
+        userName8.setBackground(new java.awt.Color(255, 255, 255));
+        userName8.setFont(new java.awt.Font("Calibri", 1, 36)); // NOI18N
+        userName8.setForeground(new java.awt.Color(255, 255, 255));
+        userName8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        userName8.setText("(E-Transfer)");
+        userName8.setToolTipText("");
+
+        amountET.setBackground(new java.awt.Color(255, 255, 254));
+        amountET.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        amountET.setSelectionColor(new java.awt.Color(255, 255, 255));
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 254));
+
+        title14.setFont(new java.awt.Font("Calibri", 0, 48)); // NOI18N
+        title14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        title14.setText("$");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(title14, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 12, Short.MAX_VALUE)
+                .addComponent(title14, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        title3.setBackground(new java.awt.Color(255, 255, 255));
+        title3.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
+        title3.setForeground(new java.awt.Color(255, 255, 255));
+        title3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title3.setText("Amount");
+
+        fromBoxET.setBackground(new java.awt.Color(255, 255, 254));
+        fromBoxET.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        fromBoxET.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chequing", "Savings", "Visa" }));
+
+        title5.setBackground(new java.awt.Color(255, 255, 255));
+        title5.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
+        title5.setForeground(new java.awt.Color(255, 255, 255));
+        title5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title5.setText("From");
+
+        registerButton.setBackground(new java.awt.Color(255, 255, 254));
+        registerButton.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        registerButton.setText("Transfer");
+        registerButton.setFocusable(false);
+        registerButton.setRequestFocusEnabled(false);
+        registerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerButtonActionPerformed(evt);
+            }
+        });
+
+        title11.setBackground(new java.awt.Color(255, 255, 255));
+        title11.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
+        title11.setForeground(new java.awt.Color(255, 255, 255));
+        title11.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title11.setText("Reciever's Email");
+
+        recieverEmail.setBackground(new java.awt.Color(255, 255, 254));
+        recieverEmail.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        recieverEmail.setSelectionColor(new java.awt.Color(255, 255, 255));
+
+        title15.setBackground(new java.awt.Color(255, 255, 255));
+        title15.setFont(new java.awt.Font("Calibri", 0, 36)); // NOI18N
+        title15.setForeground(new java.awt.Color(255, 255, 255));
+        title15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        title15.setText("Request Password");
+
+        passwordShowBox3.setBackground(new java.awt.Color(255, 255, 254));
+        passwordShowBox3.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
+        passwordShowBox3.setSelected(true);
+        passwordShowBox3.setText("Require Password");
+        passwordShowBox3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        passwordShowBox3.setFocusable(false);
+        passwordShowBox3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordShowBox3ActionPerformed(evt);
+            }
+        });
+
+        passwordShowBox4.setBackground(new java.awt.Color(255, 255, 254));
+        passwordShowBox4.setFont(new java.awt.Font("Calibri", 0, 18)); // NOI18N
+        passwordShowBox4.setText("Show Password");
+        passwordShowBox4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        passwordShowBox4.setFocusable(false);
+        passwordShowBox4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordShowBox4ActionPerformed(evt);
+            }
+        });
+
+        passwordBox.setBackground(new java.awt.Color(255, 255, 254));
+        passwordBox.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
+        javax.swing.GroupLayout userInfo3Layout = new javax.swing.GroupLayout(userInfo3);
+        userInfo3.setLayout(userInfo3Layout);
+        userInfo3Layout.setHorizontalGroup(
+            userInfo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userInfo3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(userInfo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(registerButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userName8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(fromBoxET, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(title5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(title3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userInfo3Layout.createSequentialGroup()
+                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(amountET, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(title11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(recieverEmail, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userInfo3Layout.createSequentialGroup()
+                        .addComponent(title15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(185, 185, 185))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, userInfo3Layout.createSequentialGroup()
+                        .addComponent(passwordShowBox4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(passwordShowBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passwordBox))
+                .addContainerGap())
+        );
+        userInfo3Layout.setVerticalGroup(
+            userInfo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(userInfo3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(userName8, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(title5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fromBoxET, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(title3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(userInfo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(amountET)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(title11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(recieverEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(title15)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(passwordBox, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(userInfo3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(passwordShowBox4)
+                    .addComponent(passwordShowBox3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
+                .addComponent(registerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
+        );
+
+        javax.swing.GroupLayout depositPanelLayout = new javax.swing.GroupLayout(depositPanel);
+        depositPanel.setLayout(depositPanelLayout);
+        depositPanelLayout.setHorizontalGroup(
+            depositPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(depositPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(userInfo1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(userInfo3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        depositPanelLayout.setVerticalGroup(
+            depositPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, depositPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(depositPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(userInfo3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userInfo1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(14, 14, 14))
+        );
+
+        mainContent.add(depositPanel, "panelTwo");
 
         javax.swing.GroupLayout backgroundPanelLayout = new javax.swing.GroupLayout(backgroundPanel);
         backgroundPanel.setLayout(backgroundPanelLayout);
@@ -251,33 +1034,191 @@ public class bankingFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void signInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInActionPerformed
+    private void logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutActionPerformed
+        // Logging out our current user, and let's remove them from the mainHandler
+        mainHandler.logOut();
+        this.setVisible(false); // Set the bankingFrame invisible
+        new loginFrame().setVisible(true); // Set the loginFrame visible
+    }//GEN-LAST:event_logoutActionPerformed
+
+    private void dashboardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardButtonActionPerformed
+        // Opening the dashboard
+        CardLayout card = (CardLayout)mainContent.getLayout();
+        card.show(mainContent, "panelOne");
+        // Color effects
+        resetButtons();
+        dashboardButton.setBackground(new Color(232,232,232));
+    }//GEN-LAST:event_dashboardButtonActionPerformed
+
+    private void notInServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notInServiceActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_notInServiceActionPerformed
+
+    private void fundTransferButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fundTransferButtonActionPerformed
+        // Opening the deposit screen
+        CardLayout card = (CardLayout)mainContent.getLayout();
+        card.show(mainContent, "panelTwo");
+        // Color effects
+        resetButtons();
+        fundTransferButton.setBackground(new Color(232,232,232));
+    }//GEN-LAST:event_fundTransferButtonActionPerformed
+
+    private void notInService2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notInService2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_notInService2ActionPerformed
+
+    private void notInService3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notInService3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_notInService3ActionPerformed
+
+    private void notInService4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_notInService4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_notInService4ActionPerformed
+
+    public void resetColors() {
+        Color normalColor = new Color(255, 255, 254); // Default Color
+        toBoxAT.setBackground(normalColor);
+        fromBoxAT.setBackground(normalColor);
+        amountAT.setBackground(normalColor);
+        fromBoxET.setBackground(normalColor);
+        amountET.setBackground(normalColor);
+        recieverEmail.setBackground(normalColor);
+        passwordBox.setBackground(normalColor);
+    }
+    
+    private void registerButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButton1ActionPerformed
+        // This is the button to do internal transfers [aka account -> account]
+        boolean errorTriggered = false; // Variable to check if we have a valid or dirty transfer
+         Color errorRed = new Color(255, 219, 219); // Error Color
+         
+        // First we'll check if our boxes are not the same
+        if (toBoxAT.getSelectedItem().equals(fromBoxAT.getSelectedItem())) {
+            // Display an error
+            errorTriggered = true;
+                toBoxAT.setBackground(errorRed);
+                fromBoxAT.setBackground(errorRed);
+                JOptionPane.showMessageDialog(
+                null,
+                "Invalid Transfer!\n[Cannot Transfer To The Same Account]",
+                "Account Transfer Error",
+                JOptionPane.WARNING_MESSAGE
+            );
+        }
         
-    }//GEN-LAST:event_signInActionPerformed
+        // Then we'll check if our balance is valid
+        if (amountAT.getText().matches("[0-9]+")) {
+            if (amountAT.getText().length() >= 1) {
+                double balance = Double.parseDouble(amountAT.getText());
+                if (balance <= 0) {
+                    errorTriggered = true;
+                    amountAT.setBackground(errorRed);
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "Invalid Transfer!\n[Not A Valid Amount]",
+                        "Account Creation Error",
+                        JOptionPane.WARNING_MESSAGE
+                    );
+                }
+            } else {
+                errorTriggered = true;
+                amountAT.setBackground(errorRed);
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Invalid Transfer!\n[Not A Valid Amount]",
+                    "Account Creation Error",
+                    JOptionPane.WARNING_MESSAGE
+                );
+            }
+        } else {
+            errorTriggered = true;
+                amountAT.setBackground(errorRed);
+                JOptionPane.showMessageDialog(
+                null,
+                "Invalid Transfer!\n[Amount Must Be A Number]",
+                "Account Transfer Error",
+                JOptionPane.WARNING_MESSAGE
+            );
+        }
+        
+        // Getting our local user
+        user localUser = mainHandler.getInformation();
+        
+        // Let's check if our balance < the money in our account
+        String currentAccount = (String) fromBoxAT.getSelectedItem();
+        switch (currentAccount) {
+            case "Chequing" -> {
+                if (Double.parseDouble(amountAT.getText()) > localUser.getChequing()) {
+                    errorTriggered = true;
+                    amountAT.setBackground(errorRed);
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "Invalid Transfer!\n[Cannot Transfer More Money Than You Have]",
+                        "Account Transfer Error",
+                        JOptionPane.WARNING_MESSAGE
+                    );
+                }
+            }
+            case "Savings" -> {
+                if (Double.parseDouble(amountAT.getText()) > localUser.getSavings()) {
+                    errorTriggered = true;
+                    amountAT.setBackground(errorRed);
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "Invalid Transfer!\n[Cannot Transfer More Money Than You Have]",
+                        "Account Transfer Error",
+                        JOptionPane.WARNING_MESSAGE
+                    );
+                }
+            }
+            default -> {
+               // This will be a Visa 
+               if (Double.parseDouble(amountAT.getText()) > localUser.getVisa()) {
+                    errorTriggered = true;
+                    amountAT.setBackground(errorRed);
+                    JOptionPane.showMessageDialog(
+                        null,
+                        "Invalid Transfer!\n[Cannot Transfer More Money Than You Have]",
+                        "Account Transfer Error",
+                        JOptionPane.WARNING_MESSAGE
+                    );
+                }
+            }
+        }
+        
+        if (errorTriggered == false) {
+            // If we don't trigger an error by this point, we'll be able to do a transfer
+            mainHandler.accountTransfer((String) fromBoxAT.getSelectedItem(), (String) toBoxAT.getSelectedItem(), Double.parseDouble(amountAT.getText()));
+            update();
 
-    private void signIn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_signIn1ActionPerformed
+            // Successfully transferred
+            JOptionPane.showMessageDialog(null, "You Have Successfully Transferred Money!", "Account Transfer Success", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
+        // Reset the error colors
+        resetColors();
+    }//GEN-LAST:event_registerButton1ActionPerformed
 
-    private void signIn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_signIn2ActionPerformed
+    private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
+        
+    }//GEN-LAST:event_registerButtonActionPerformed
 
-    private void signIn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn3ActionPerformed
+    private void amountATActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_amountATActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_signIn3ActionPerformed
+    }//GEN-LAST:event_amountATActionPerformed
 
-    private void signIn7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_signIn7ActionPerformed
+    private void passwordShowBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordShowBox3ActionPerformed
 
-    private void signIn8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_signIn8ActionPerformed
+        
+    }//GEN-LAST:event_passwordShowBox3ActionPerformed
 
-    private void signIn9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signIn9ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_signIn9ActionPerformed
+    private void passwordShowBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordShowBox4ActionPerformed
+        // Turning our password boxes visble
+        if (passwordShowBox.isSelected()) {
+            passwordBox.setEchoChar((char)0);
+        } else {
+            passwordBox.setEchoChar('*');
+        }
+    }//GEN-LAST:event_passwordShowBox4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -315,18 +1256,76 @@ public class bankingFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel accountNum;
+    private javax.swing.JLabel address;
+    private javax.swing.JTextField amountAT;
+    private javax.swing.JTextField amountET;
     private javax.swing.JPanel backgroundPanel;
     private javax.swing.JLabel bankImage;
+    private javax.swing.JLabel branch;
+    private javax.swing.JLabel chequing;
     private javax.swing.JPanel dashboard;
+    private javax.swing.JButton dashboardButton;
+    private javax.swing.JPanel dashboardPanel;
+    private javax.swing.JPanel depositPanel;
+    private javax.swing.JLabel email;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.JComboBox<String> fromBoxAT;
+    private javax.swing.JComboBox<String> fromBoxET;
+    private javax.swing.JButton fundTransferButton;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton logout;
     private javax.swing.JPanel mainContent;
-    private javax.swing.JButton signIn;
-    private javax.swing.JButton signIn1;
-    private javax.swing.JButton signIn2;
-    private javax.swing.JButton signIn3;
-    private javax.swing.JButton signIn7;
-    private javax.swing.JButton signIn8;
-    private javax.swing.JButton signIn9;
+    private javax.swing.JButton notInService;
+    private javax.swing.JButton notInService2;
+    private javax.swing.JButton notInService3;
+    private javax.swing.JButton notInService4;
+    private javax.swing.JPasswordField passwordBox;
+    private javax.swing.JCheckBox passwordShowBox;
+    private javax.swing.JCheckBox passwordShowBox1;
+    private javax.swing.JCheckBox passwordShowBox2;
+    private javax.swing.JCheckBox passwordShowBox3;
+    private javax.swing.JCheckBox passwordShowBox4;
+    private javax.swing.JLabel phoneNumber;
+    private javax.swing.JTable recentTransactions;
+    private javax.swing.JTextField recieverEmail;
+    private javax.swing.JButton registerButton;
+    private javax.swing.JButton registerButton1;
+    private javax.swing.JLabel savings;
+    private javax.swing.JLabel title;
+    private javax.swing.JLabel title1;
+    private javax.swing.JLabel title10;
+    private javax.swing.JLabel title11;
+    private javax.swing.JLabel title12;
+    private javax.swing.JLabel title13;
+    private javax.swing.JLabel title14;
+    private javax.swing.JLabel title15;
+    private javax.swing.JLabel title2;
+    private javax.swing.JLabel title3;
     private javax.swing.JLabel title4;
+    private javax.swing.JLabel title5;
+    private javax.swing.JLabel title6;
+    private javax.swing.JLabel title7;
+    private javax.swing.JLabel title8;
+    private javax.swing.JLabel title9;
+    private javax.swing.JComboBox<String> toBoxAT;
+    private javax.swing.JPanel userInfo;
+    private javax.swing.JPanel userInfo1;
+    private javax.swing.JPanel userInfo2;
+    private javax.swing.JPanel userInfo3;
+    private javax.swing.JLabel userName;
+    private javax.swing.JLabel userName1;
+    private javax.swing.JLabel userName2;
+    private javax.swing.JLabel userName3;
+    private javax.swing.JLabel userName4;
+    private javax.swing.JLabel userName8;
+    private javax.swing.JLabel userName9;
+    private javax.swing.JLabel visa;
     // End of variables declaration//GEN-END:variables
 }

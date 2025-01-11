@@ -1,8 +1,11 @@
 # Banking Simulation - Overview
 
+![Photo](/public/Bank.png)
+
 ## Features
 
 This program includes the following features:
+
 - **Loading Screen:** Displays while the application is initializing.
 - **Register:** Allows users to create an account by filling in personal details and setting up login credentials.
 - **Sign In:** Enables users to log in using their account number and password.
@@ -22,8 +25,11 @@ This application is built using Java with Java Swing for the graphical user inte
 ## Prerequisites
 
 Ensure you have the following installed on your system:
+
 - [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
 - [Git](https://git-scm.com/downloads)
+
+[Please Make Sure You Install JDK-11]
 
 ## Step 1: Clone the Repository
 
@@ -58,6 +64,7 @@ To use this application, follow these steps:
 1. **Register an Account**
 
    Click the "Register" button at the bottom of the screen. You will need to fill out the following information:
+
    - Full name
    - Address
    - Phone number
@@ -66,7 +73,7 @@ To use this application, follow these steps:
    - Account deposit
    - Password (and re-enter it for confirmation)
 
-   **Note:** You will receive a pre-generated account number. Be sure to write it down, as you will need it to log in. 
+   **Note:** You will receive a pre-generated account number. Be sure to write it down, as you will need it to log in.
 
    **Important:** **DO NOT use your real information** as this is a simulation tool.
 
